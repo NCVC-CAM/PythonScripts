@@ -3,7 +3,7 @@ import fileinput
 import matplotlib.pyplot as plt
 
 dx, dy = np.loadtxt(fileinput.input(), delimiter=',', unpack=True)
-qx, qy = np.loadtxt("q.txt", unpack=True)
+qx, qy, w = np.loadtxt("q3.txt", unpack=True)
 
 plt.plot(dx, dy, c='k')
 plt.plot(qx, qy, 'o')
