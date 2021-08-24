@@ -19,20 +19,20 @@ def baseN(i, m, t, nv):
     return w1+w2
 
 
-lqx, lqy = np.loadtxt("q2.txt", unpack=True)
-nv = np.loadtxt("nv2.txt")
+lqx, lqy = np.loadtxt("q.txt", unpack=True)
+nv = np.loadtxt("nv.txt")
 tmax = max(nv)
 
 px = []
 py = []
-for t in np.arange((tmax+1)*10.0):
+for t in np.arange(0, tmax+0.1, 0.1):
     i = 0
     x = 0
     y = 0
-    if t == tmax*10:
+    if t==tmax:
         t -= 0.001
     for qx, qy in zip(lqx, lqy):
-        r = baseN(i, 4, t/10.0, nv)
+        r = baseN(i, 4, t, nv)
         x += qx * r
         y += qy * r
         i += 1
