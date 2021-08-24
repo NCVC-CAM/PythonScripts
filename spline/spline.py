@@ -2,7 +2,7 @@ import numpy as np
 
 def baseN(i, m, t, nv):
     if m == 1:
-        if nv[i] <= t <= nv[i+1]:
+        if nv[i] <= t < nv[i+1]:
             return 1.0
         else:
             return 0.0
@@ -19,23 +19,25 @@ def baseN(i, m, t, nv):
     return w1+w2
 
 
-lqx, lqy = np.loadtxt("q.txt", unpack=True)
-nv = np.loadtxt("nv.txt")
+lqx, lqy = np.loadtxt("q2.txt", unpack=True)
+nv = np.loadtxt("nv2.txt")
+tmax = max(nv)
 
 px = []
 py = []
-for t in range(40):
+for t in np.arange((tmax+1)*10.0):
     i = 0
     x = 0
     y = 0
+    if t == tmax*10:
+        t -= 0.001
     for qx, qy in zip(lqx, lqy):
         r = baseN(i, 4, t/10.0, nv)
         x += qx * r
         y += qy * r
         i += 1
-    if x != 0:
+    if x!=0 or y!=0:
         px.append(x)
-    if y != 0:
         py.append(y)
 
 for x, y in zip(px, py):
