@@ -19,8 +19,8 @@ def baseN(i, m, t, nv):
     return w1+w2
 
 
-lqx, lqy, lw = np.loadtxt("q3.txt", unpack=True)
-nv = np.loadtxt("nv3.txt")
+lqx, lqy, lw = np.loadtxt("q2.txt", unpack=True)
+nv = np.loadtxt("nv2.txt")
 tmax = max(nv)
 
 px = []
@@ -33,8 +33,8 @@ for t in np.arange(0, tmax+0.1, 0.1):
         t -= 0.001
     for qx, qy, w in zip(lqx, lqy, lw):
         r = baseN(i, 4, t, nv)
-        x += qx * r * w
-        y += qy * r * w
+        x += qx * r
+        y += qy * r
         i += 1
     if x!=0 or y!=0:
         px.append(x)
