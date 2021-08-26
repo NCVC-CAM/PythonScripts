@@ -19,7 +19,7 @@ def baseN(i, m, t, nv):
     return w1+w2
 
 
-lqx, lqy, lw = np.loadtxt("q2.txt", unpack=True)
+lqx, lqy, lw = np.loadtxt("q6.txt", unpack=True)
 nv = np.loadtxt("nv2.txt")
 tmax = max(nv)
 
