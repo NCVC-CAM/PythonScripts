@@ -19,21 +19,22 @@ def baseN(i, m, t, nv):
     return w1+w2
 
 
-lqx, lqy, lw = np.loadtxt("q6.txt", unpack=True)
-nv = np.loadtxt("nv2.txt")
+lqx, lqy, lw = np.loadtxt("hanako_outline_ctrl.txt", unpack=True)
+nv = np.loadtxt("hanako_outline_knot.txt")
 tmin = min(nv)
 tmax = max(nv)
+m = 4
 
 px = []
 py = []
-for t in np.linspace(tmin, tmax, 100):
+for t in np.linspace(tmin, tmax, 500):
     i = 0
     x = 0
     y = 0
     if t==tmax:
         t -= 0.001
     for qx, qy, w in zip(lqx, lqy, lw):
-        r = baseN(i, 4, t, nv)
+        r = baseN(i, m, t, nv)
         x += qx * r * w
         y += qy * r * w
         i += 1
