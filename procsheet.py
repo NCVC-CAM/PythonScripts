@@ -6,7 +6,7 @@ reg_ignore = re.compile(r'\W')      ## まだ'/'は入れてません
 reg_word   = re.compile(r'[A-Z]-*\d+\.*\d*')
 
 ## プロセスシートの列をDataFrameで作成
-col = ["/","N","G","X","Y","Z","R/I","J","K","F","S","T","M","H/D","L","P","Q"]
+col = ['/','N','G','X','Y','Z','R/I','J','K','F','S','T','M','H/D','L','P','Q']
 df = pd.DataFrame(index=[], columns=col)
 
 for line in sys.stdin:
@@ -16,13 +16,16 @@ for line in sys.stdin:
     ## 1ブロックをワードごとに分割
     dic = {}
     wordlist = re.findall(reg_word, line)
-    for w in wordlist:
+    for word in wordlist:
         ## ワードの先頭1文字をキーに各列に文字列を追加
-        if w[:1] in dic:    ## このif文なんとかならんかな？
-            dic[w[:1]] = dic.get(w[:1]) + w
-        else:
-            dic[w[:1]] = w
+        w = word[:1]
+        if w=='R' or w=='I':
+            w = 'R/I'
+        elif w=='H' or w=='D':
+            w = 'H/D'
+        dic[w] = dic.get(w) or "" + word
     ## DataFrameに1行追加
     df = df.append(dic, ignore_index=True)
 
 print(df)
+df.to_excel('./sample.xlsx', index=False)
