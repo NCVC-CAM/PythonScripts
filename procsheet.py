@@ -1,19 +1,35 @@
 import sys
+import os
 import re
 import pandas as pd
 
-reg_ignore = re.compile(r'\W')      ## まだ'/'は入れてません
-reg_word   = re.compile(r'[A-Z]-*\d+\.*\d*')
+## 使い方
+## python procsheet.py sample.ncd [sample.xlsx]
+## 最後の出力ファイル名は省略可．省略すると 入力ファイル.xlsx で出力されます
+
+## 引数処理
+inFile=open(sys.argv[1])
+if len(sys.argv) > 2:
+    argv = sys.argv[2]
+else:
+    argv = sys.argv[1]
+outfile=os.path.splitext(argv)[0]+'.xlsx'
+print(outfile)
+
+## 暗号みたいな正規表現は各自解析してください (^o^)
+reg_ignore = re.compile(r'^(%|\()')
+reg_word   = re.compile(r'[A-Z/]-?\d*\.?\d*')
 
 ## プロセスシートの列をDataFrameで作成
 col = ['/','N','G','X','Y','Z','R/I','J','K','F','S','T','M','H/D','L','P','Q']
 df = pd.DataFrame(index=[], columns=col)
 
-for line in sys.stdin:
-    ## コメント行とかは無視
+## 1行（ブロック）ずつ処理
+for line in inFile.readlines():
+    ## コメント行は無視
     if re.match(reg_ignore, line):
         continue
-    ## 1ブロックをワードごとに分割
+    ## ブロックをワードごとに分割
     dic = {}
     wordlist = re.findall(reg_word, line)
     for word in wordlist:
@@ -23,9 +39,9 @@ for line in sys.stdin:
             w = 'R/I'
         elif w=='H' or w=='D':
             w = 'H/D'
-        dic[w] = dic.get(w) or "" + word
+        dic[w] = (dic.get(w) or '') + word
     ## DataFrameに1行追加
     df = df.append(dic, ignore_index=True)
 
 print(df)
-df.to_excel('./sample.xlsx', index=False)
+df.to_excel(outfile, index=False)
