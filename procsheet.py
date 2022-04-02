@@ -9,11 +9,7 @@ import pandas as pd
 
 ## 引数処理
 inFile=open(sys.argv[1])
-if len(sys.argv) > 2:
-    argv = sys.argv[2]
-else:
-    argv = sys.argv[1]
-outfile=os.path.splitext(argv)[0]+'.xlsx'
+outfile=os.path.splitext(sys.argv[2 if len(sys.argv)>2 else 1])[0]+'.xlsx'
 print(outfile)
 
 ## 暗号みたいな正規表現は各自解析してください (^o^)
