@@ -9,8 +9,8 @@ import pandas as pd
 
 ## 引数処理
 inFile=open(sys.argv[1])
-outfile=os.path.splitext(sys.argv[2 if len(sys.argv)>2 else 1])[0]+'.xlsx'
-print(outfile)
+outFile=os.path.splitext(sys.argv[2 if len(sys.argv)>2 else 1])[0]+'.xlsx'
+print(outFile)
 
 ## 暗号みたいな正規表現は各自解析してください (^o^)
 reg_ignore = re.compile(r'^(%|\()')
@@ -40,4 +40,4 @@ for line in inFile.readlines():
     df = df.append(dic, ignore_index=True)
 
 print(df)
-df.to_excel(outfile, index=False)
+df.to_excel(outFile, index=False)
